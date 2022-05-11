@@ -3,6 +3,7 @@
         {
             "key": "1",
             "modifiers": ["LEFT CTRL", "LEFT SHIFT"],
+            "triggerOnKeyUp": true,
             "message": "lorem ipsum dolor sit amet"
         },
         {

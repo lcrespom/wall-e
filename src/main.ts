@@ -4,26 +4,29 @@ import { registerHotkey } from './hotkey'
 import clipboard from 'clipboardy'
 import robot from 'robotjs'
 
+const TYPE_INITIAL_WAIT = 500
+
 function handlePaste() {
     let clipboardTxt = clipboard.readSync()
-    console.log('--- Pasting from clipboard ---')
-    console.log(clipboardTxt)
-    console.log('---')
     typeText(clipboardTxt)
 }
 
 function typeText(txt: string) {
+    console.log('--- Pasting from clipboard ---')
+    console.log(txt)
+    console.log('---')
     setTimeout(() => {
         //TODO split \n into lines and type ENTER explicitly
         robot.typeString(txt)
-    }, 250)
+    }, TYPE_INITIAL_WAIT)
 }
 
 function readConfig() {
     try {
         let config = JSON.parse(fs.readFileSync('config.json', 'utf8'))
         for (let preset of config.presets) {
-            registerHotkey(preset.key, preset.modifiers, () => typeText(preset.message))
+            preset.callback = () => typeText(preset.message)
+            registerHotkey(preset)
         }
     } catch (e) {
         console.warn('Warning: config.json not found or invalid')
@@ -32,7 +35,11 @@ function readConfig() {
 
 function main() {
     robot.setKeyboardDelay(10)
-    registerHotkey('V', ['LEFT ALT', 'LEFT CTRL'], handlePaste)
+    registerHotkey({
+        key: 'V',
+        modifiers: ['LEFT ALT', 'LEFT CTRL'],
+        callback: handlePaste
+    })
     readConfig()
 }
 

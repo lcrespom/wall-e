@@ -22,6 +22,7 @@ type Hotkey = {
     modifiers: Modifier[]
     callback: HotkeyCallback
     repeatOK?: boolean
+    triggerOnKeyUp?: boolean
     alreadyPressed?: boolean
 }
 
@@ -33,9 +34,11 @@ function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap)
         if (!down[modifier]) return false
     }
     if (key.state == 'UP') {
+        if (hotkey.triggerOnKeyUp) return true
         hotkey.alreadyPressed = false
         return false
     }
+    if (hotkey.triggerOnKeyUp) return false
     if (!hotkey.repeatOK && hotkey.alreadyPressed) return false
     hotkey.alreadyPressed = true
     return true
@@ -47,13 +50,9 @@ function checkHotkeys(key: IGlobalKeyEvent, down: IGlobalKeyDownMap) {
     }
 }
 
-export function registerHotkey(
-    key: string,
-    modifiers: Modifier | Modifier[],
-    callback: HotkeyCallback
-) {
-    if (!Array.isArray(modifiers)) modifiers = [modifiers]
-    hotkeys.push({ key, modifiers, callback })
+export function registerHotkey(hotkey: Hotkey) {
+    if (!Array.isArray(hotkey.modifiers)) hotkey.modifiers = [hotkey.modifiers]
+    hotkeys.push(hotkey)
 }
 
 export function traceAllKeyEvents() {
