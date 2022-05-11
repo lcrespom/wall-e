@@ -1,17 +1,46 @@
 import { GlobalKeyboardListener } from 'node-global-key-listener'
+import { IGlobalKeyEvent, IGlobalKeyDownMap } from 'node-global-key-listener'
 
-let altFpressed = false
-function checkHotkeys(e, down) {
-    if (!(e.name == 'F' && (down['LEFT ALT'] || down['RIGHT ALT']))) return
-    if (e.state == 'UP') altFpressed = false
-    else if (e.state == 'DOWN') {
-        if (altFpressed) return
-        altFpressed = true
-        console.log('Alt+F')
-        return true
+type HotkeyCallback = () => void
+
+type Hotkey = {
+    key: string
+    modifiers: string[]
+    callback: HotkeyCallback
+    alreadyPressed?: boolean
+}
+
+let hotkeys: Hotkey[] = []
+
+function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap) {
+    if (key.name != hotkey.key) return false
+    for (let modifier of hotkey.modifiers) {
+        if (!down[modifier]) return false
+    }
+    if (key.state == 'UP') {
+        hotkey.alreadyPressed = false
+        return false
+    }
+    if (hotkey.alreadyPressed) return false
+    hotkey.alreadyPressed = true
+    return true
+}
+
+function checkHotkeys(key: IGlobalKeyEvent, down: IGlobalKeyDownMap) {
+    for (let hotkey of hotkeys) {
+        if (isHotkey(hotkey, key, down)) hotkey.callback()
     }
 }
 
-export function registerHotkey(key: string, modifiers: string[], cb: () => void) {}
+export function registerHotkey(key: string, modifiers: string[], callback: HotkeyCallback) {
+    hotkeys.push({ key, modifiers, callback })
+}
 
-new GlobalKeyboardListener().addListener(checkHotkeys)
+export function traceAllKeyEvents() {
+    globalListener.addListener(function (e, down) {
+        console.log(`${e.name} ${e.state == 'DOWN' ? 'DOWN' : 'UP  '} [${e.rawKey._nameRaw}]`)
+    })
+}
+
+let globalListener = new GlobalKeyboardListener()
+globalListener.addListener(checkHotkeys)
