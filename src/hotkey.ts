@@ -48,8 +48,18 @@ function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap)
     return true
 }
 
+function allKeysUp(key: IGlobalKeyEvent, down: IGlobalKeyDownMap): boolean {
+    if (key.state != 'UP') return false
+    for (let k of Object.keys(down)) if (down[k]) return false
+    return true
+}
+
 function checkHotkeys(key: IGlobalKeyEvent, down: IGlobalKeyDownMap) {
-    //TODO check if all keys are up, run pending callbacks if so
+    if (allKeysUp(key, down)) {
+        for (let cb of pendingCallbacks) cb()
+        pendingCallbacks = []
+        return
+    }
     for (let hotkey of hotkeys) {
         if (isHotkey(hotkey, key, down)) hotkey.callback()
     }
@@ -68,5 +78,3 @@ export function traceAllKeyEvents() {
 
 let globalListener = new GlobalKeyboardListener()
 globalListener.addListener(checkHotkeys)
-
-traceAllKeyEvents()
