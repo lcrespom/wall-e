@@ -34,6 +34,7 @@ function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap)
         if (!down[modifier]) return false
     }
     if (key.state == 'UP') {
+        //TODO store callback and call it after all keys have been released
         if (hotkey.triggerOnKeyUp) return true
         hotkey.alreadyPressed = false
         return false
