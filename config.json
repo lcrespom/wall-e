@@ -1,0 +1,14 @@
+{
+    "presets": [
+        {
+            "key": "1",
+            "modifiers": ["LEFT CTRL", "LEFT SHIFT"],
+            "message": "lorem ipsum dolor sit amet"
+        },
+        {
+            "key": "2",
+            "modifiers": ["LEFT CTRL", "LEFT SHIFT"],
+            "message": "consectetur\nadipliscit"
+        }
+    ]
+}
