@@ -27,6 +27,7 @@ type Hotkey = {
 }
 
 let hotkeys: Hotkey[] = []
+let pendingCallbacks: HotkeyCallback[] = []
 
 function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap) {
     if (key.name != hotkey.key) return false
@@ -34,8 +35,10 @@ function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap)
         if (!down[modifier]) return false
     }
     if (key.state == 'UP') {
-        //TODO store callback and call it after all keys have been released
-        if (hotkey.triggerOnKeyUp) return true
+        if (hotkey.triggerOnKeyUp) {
+            pendingCallbacks.push(hotkey.callback)
+            return false
+        }
         hotkey.alreadyPressed = false
         return false
     }
@@ -46,6 +49,7 @@ function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap)
 }
 
 function checkHotkeys(key: IGlobalKeyEvent, down: IGlobalKeyDownMap) {
+    //TODO check if all keys are up, run pending callbacks if so
     for (let hotkey of hotkeys) {
         if (isHotkey(hotkey, key, down)) hotkey.callback()
     }
@@ -64,3 +68,5 @@ export function traceAllKeyEvents() {
 
 let globalListener = new GlobalKeyboardListener()
 globalListener.addListener(checkHotkeys)
+
+traceAllKeyEvents()
