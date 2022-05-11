@@ -9,5 +9,5 @@ registerHotkey('V', ['LEFT ALT', 'LEFT CTRL'], () => {
     console.log('---')
     setTimeout(() => {
         robot.typeString(clipboardTxt)
-    }, 1000)
+    }, 250)
 })
