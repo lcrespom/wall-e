@@ -10,6 +10,7 @@
     "author": "Luis Crespo",
     "license": "ISC",
     "dependencies": {
+        "clipboardy": "^3.0.0",
         "esno": "^0.14.1",
         "node-global-key-listener": "^0.1.1"
     }

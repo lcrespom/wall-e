@@ -3,10 +3,25 @@ import { IGlobalKeyEvent, IGlobalKeyDownMap } from 'node-global-key-listener'
 
 type HotkeyCallback = () => void
 
+type Modifier =
+    | 'LEFT META'
+    | 'RIGHT META'
+    | 'LEFT CTRL'
+    | 'RIGHT CTRL'
+    | 'LEFT ALT'
+    | 'RIGHT ALT'
+    | 'LEFT SHIFT'
+    | 'RIGHT SHIFT'
+    | 'CAPS LOCK'
+    | 'NUM LOCK'
+    | 'SCROLL LOCK'
+    | 'FN'
+
 type Hotkey = {
     key: string
-    modifiers: string[]
+    modifiers: Modifier[]
     callback: HotkeyCallback
+    repeatOK?: boolean
     alreadyPressed?: boolean
 }
 
@@ -21,7 +36,7 @@ function isHotkey(hotkey: Hotkey, key: IGlobalKeyEvent, down: IGlobalKeyDownMap)
         hotkey.alreadyPressed = false
         return false
     }
-    if (hotkey.alreadyPressed) return false
+    if (!hotkey.repeatOK && hotkey.alreadyPressed) return false
     hotkey.alreadyPressed = true
     return true
 }
@@ -32,7 +47,12 @@ function checkHotkeys(key: IGlobalKeyEvent, down: IGlobalKeyDownMap) {
     }
 }
 
-export function registerHotkey(key: string, modifiers: string[], callback: HotkeyCallback) {
+export function registerHotkey(
+    key: string,
+    modifiers: Modifier | Modifier[],
+    callback: HotkeyCallback
+) {
+    if (!Array.isArray(modifiers)) modifiers = [modifiers]
     hotkeys.push({ key, modifiers, callback })
 }
 

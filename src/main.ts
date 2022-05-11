@@ -1,5 +1,8 @@
 import { registerHotkey } from './hotkey'
+import clipboard from 'clipboardy'
 
-registerHotkey('F', ['LEFT ALT'], () => {
-    console.log('Yeah!')
+registerHotkey('V', ['LEFT ALT', 'LEFT CTRL'], () => {
+    console.log('--- Pasting from clipboard ---')
+    console.log(clipboard.readSync())
+    console.log('---')
 })
