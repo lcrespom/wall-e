@@ -20,12 +20,12 @@
         },
         {
             "key": "X",
-            "modifiers": ["LEFT CTRL", "LEFT SHIFT"],
-            "ifTitleMatches": "TightVNC Viewer",
-            "triggerOnKeyUp": true,
+            "modifiers": ["LEFT CTRL", "LEFT ALT"],
+            "ifTitleMatches": "Notepad",
             "macro": [
                 { "text": "asdf" },
-                { "click": { "x": 100, "y": 100 } },
+                { "wait": 2 },
+                { "click": { "wx": 200, "wy": 200 } },
                 { "wait": 3.5 },
                 { "text": "1234" }
             ]

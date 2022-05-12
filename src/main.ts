@@ -6,7 +6,6 @@ import { windowManager } from 'node-window-manager'
 
 import { registerHotkey } from './hotkey'
 
-const window = windowManager.getActiveWindow()
 
 const TYPE_INITIAL_WAIT = 500
 
@@ -52,6 +51,26 @@ function typeText(txt: string) {
     }, TYPE_INITIAL_WAIT)
 }
 
+function mouseClick(click: MouseClick) {
+    if (click.x !== undefined) {
+        robot.moveMouse(click.x, click.y)
+    } else if (click.wx !== undefined) {
+        let bounds = windowManager.getActiveWindow().getBounds()
+        console.log('Bounds: ', bounds)
+        robot.moveMouse(bounds.x + click.wx, bounds.y + click.wy)
+    }
+    robot.mouseClick(click.button || 'left', click.double)
+}
+
+async function runMacro(macro: Macro) {
+    const sleep = t => new Promise(resolve => setTimeout(resolve, t))
+    for (let step of macro) {
+        if (step.text) typeText(step.text)
+        if (step.click) mouseClick(step.click)
+        if (step.wait) await sleep(step.wait * 1000)
+    }
+}
+
 function matchWindowTitle(pattern: string): boolean {
     if (!pattern) return false
     let winTitle = windowManager.getActiveWindow().getTitle()
@@ -60,7 +79,8 @@ function matchWindowTitle(pattern: string): boolean {
 
 function handleHotkey(hotkey: Hotkey) {
     if (!matchWindowTitle(hotkey.ifTitleMatches)) return
-    typeText(hotkey.message)
+    if (hotkey.message) typeText(hotkey.message)
+    else runMacro(hotkey.macro)
 }
 
 function readConfig() {
