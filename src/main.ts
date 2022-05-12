@@ -50,13 +50,14 @@ function typeText(txt: string) {
 
 function readConfig() {
     try {
-        let config = JSON.parse(fs.readFileSync('config.json', 'utf8'))
+        let cfgPath = process.argv[2] || 'config.json'
+        let config = JSON.parse(fs.readFileSync(cfgPath, 'utf8'))
         for (let preset of config.presets) {
             preset.callback = () => typeText(preset.message)
             registerHotkey(preset)
         }
     } catch (e) {
-        console.warn('Warning: config.json not found or invalid')
+        console.warn('Warning: config file not found or invalid')
     }
 }
 
