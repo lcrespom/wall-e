@@ -5,6 +5,7 @@ import clipboard from 'clipboardy'
 import robot from 'robotjs'
 
 const TYPE_INITIAL_WAIT = 500
+const TYPE_PART_WAIT = 1000
 
 function handlePaste() {
     let clipboardTxt = clipboard.readSync()
@@ -27,7 +28,7 @@ function splitAndFilter(str: string, ...separators: string[]): string[] {
 function typeKey(k: string) {
     let chmap = {
         '\t': 'tab',
-        '\n': 'enter', //TODO why does it type everything twice???
+        '\n': 'enter',
         '\b': 'backspace'
     }
     let key = chmap[k]
@@ -43,7 +44,7 @@ function typeText(txt: string) {
     setTimeout(() => {
         for (let part of parts) {
             if (part.charCodeAt(0) < 32) typeKey(part)
-            else robot.typeString(txt)
+            else robot.typeString(part)
         }
     }, TYPE_INITIAL_WAIT)
 }
