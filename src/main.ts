@@ -5,7 +5,6 @@ import clipboard from 'clipboardy'
 import robot from 'robotjs'
 
 const TYPE_INITIAL_WAIT = 500
-const TYPE_PART_WAIT = 1000
 
 function handlePaste() {
     let clipboardTxt = clipboard.readSync()
