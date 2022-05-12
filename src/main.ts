@@ -27,7 +27,7 @@ function splitAndFilter(str: string, ...separators: string[]): string[] {
 function typeKey(k: string) {
     let chmap = {
         '\t': 'tab',
-        '\n': 'enter',
+        '\n': 'enter', //TODO why does it type everything twice???
         '\b': 'backspace'
     }
     let key = chmap[k]
@@ -40,7 +40,6 @@ function typeText(txt: string) {
     console.log(txt)
     console.log('---')
     let parts = splitAndFilter(txt, '\t', '\n', '\r')
-    console.dir(parts)
     setTimeout(() => {
         for (let part of parts) {
             if (part.charCodeAt(0) < 32) typeKey(part)
