@@ -24,3 +24,8 @@ content of the clipboard one key at a time.
 
 The default configuration file is `config.json` but a different one can be
 specified in the command line. The tool is run using the `npm start` command.
+
+## Next
+- Macro recording:
+    - Ctrl+Alt+R records mouse clicks and keys until Ctrl+Alt+R is typed again
+    - Recording data is sent to console as JSON and can be used in config file

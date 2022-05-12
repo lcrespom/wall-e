@@ -1,31 +1,6 @@
 import { GlobalKeyboardListener } from 'node-global-key-listener'
 import { IGlobalKeyEvent, IGlobalKeyDownMap } from 'node-global-key-listener'
 
-type HotkeyCallback = () => void
-
-type Modifier =
-    | 'LEFT META'
-    | 'RIGHT META'
-    | 'LEFT CTRL'
-    | 'RIGHT CTRL'
-    | 'LEFT ALT'
-    | 'RIGHT ALT'
-    | 'LEFT SHIFT'
-    | 'RIGHT SHIFT'
-    | 'CAPS LOCK'
-    | 'NUM LOCK'
-    | 'SCROLL LOCK'
-    | 'FN'
-
-type Hotkey = {
-    key: string
-    modifiers: Modifier[]
-    callback: HotkeyCallback
-    repeatOK?: boolean
-    triggerOnKeyUp?: boolean
-    alreadyPressed?: boolean
-}
-
 let hotkeys: Hotkey[] = []
 let pendingCallbacks: HotkeyCallback[] = []
 

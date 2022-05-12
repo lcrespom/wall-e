@@ -11,6 +11,24 @@
             "modifiers": ["LEFT CTRL", "LEFT SHIFT"],
             "triggerOnKeyUp": true,
             "message": "consectetur\nadipliscit"
+        },
+        {
+            "key": "W",
+            "modifiers": ["LEFT CTRL", "LEFT ALT"],
+            "ifTitleMatches": "- Notepad",
+            "message": "Hello Notepad"
+        },
+        {
+            "key": "X",
+            "modifiers": ["LEFT CTRL", "LEFT SHIFT"],
+            "ifTitleMatches": "TightVNC Viewer",
+            "triggerOnKeyUp": true,
+            "macro": [
+                { "text": "asdf" },
+                { "click": { "x": 100, "y": 100 } },
+                { "wait": 3.5 },
+                { "text": "1234" }
+            ]
         }
     ]
 }

@@ -1,8 +1,12 @@
 import fs from 'node:fs'
 
-import { registerHotkey } from './hotkey'
 import clipboard from 'clipboardy'
 import robot from 'robotjs'
+import { windowManager } from 'node-window-manager'
+
+import { registerHotkey } from './hotkey'
+
+const window = windowManager.getActiveWindow()
 
 const TYPE_INITIAL_WAIT = 500
 
@@ -48,12 +52,23 @@ function typeText(txt: string) {
     }, TYPE_INITIAL_WAIT)
 }
 
+function matchWindowTitle(pattern: string): boolean {
+    if (!pattern) return false
+    let winTitle = windowManager.getActiveWindow().getTitle()
+    return RegExp(pattern).test(winTitle)
+}
+
+function handleHotkey(hotkey: Hotkey) {
+    if (!matchWindowTitle(hotkey.ifTitleMatches)) return
+    typeText(hotkey.message)
+}
+
 function readConfig() {
     try {
         let cfgPath = process.argv[2] || 'config.json'
         let config = JSON.parse(fs.readFileSync(cfgPath, 'utf8'))
         for (let preset of config.presets) {
-            preset.callback = () => typeText(preset.message)
+            preset.callback = () => handleHotkey(preset)
             registerHotkey(preset)
         }
     } catch (e) {
