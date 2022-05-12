@@ -11,13 +11,41 @@ function handlePaste() {
     typeText(clipboardTxt)
 }
 
+function splitAndFilter(str: string, ...separators: string[]): string[] {
+    let parts = [str]
+    for (let sep of separators) {
+        let result = []
+        for (let part of parts) {
+            let splitStr = part.split(new RegExp(`(${sep})`)).filter(s => s.length > 0)
+            result = result.concat(splitStr)
+        }
+        parts = result
+    }
+    return parts
+}
+
+function typeKey(k: string) {
+    let chmap = {
+        '\t': 'tab',
+        '\n': 'enter',
+        '\b': 'backspace'
+    }
+    let key = chmap[k]
+    if (!key) return
+    robot.keyTap(key)
+}
+
 function typeText(txt: string) {
     console.log('--- Pasting from clipboard ---')
     console.log(txt)
     console.log('---')
+    let parts = splitAndFilter(txt, '\t', '\n', '\r')
+    console.dir(parts)
     setTimeout(() => {
-        //TODO split \n into lines and type ENTER explicitly
-        robot.typeString(txt)
+        for (let part of parts) {
+            if (part.charCodeAt(0) < 32) typeKey(part)
+            else robot.typeString(txt)
+        }
     }, TYPE_INITIAL_WAIT)
 }
 
