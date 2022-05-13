@@ -17,8 +17,6 @@ type Modifier =
 type MouseClick = {
     x?: number
     y?: number
-    wx?: number
-    wy?: number
     button?: string
     double?: boolean
 }

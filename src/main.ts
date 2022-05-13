@@ -8,7 +8,6 @@ import { registerHotkey } from './hotkey'
 
 
 const TYPE_INITIAL_WAIT = 500
-let config
 
 function handlePaste() {
     let clipboardTxt = clipboard.readSync()
@@ -52,20 +51,8 @@ function typeText(txt: string) {
     }, TYPE_INITIAL_WAIT)
 }
 
-function mouseTo(px: number, py: number) {
-    // Rescale is required because robotjs used scaled coordinates
-    let scale = (config.screenScalePct || 100) / 100
-    robot.moveMouse(px * scale, py * scale)
-}
-
 function mouseClick(click: MouseClick) {
-    if (click.x !== undefined) {
-        mouseTo(click.x, click.y)
-    } else if (click.wx !== undefined) {
-        let bounds = windowManager.getActiveWindow().getBounds()
-        console.log('Bounds: ', bounds)
-        mouseTo(bounds.x + click.wx, bounds.y + click.wy)
-    }
+    robot.moveMouse(click.x, click.y)
     robot.mouseClick(click.button || 'left', click.double)
 }
 
@@ -93,7 +80,7 @@ function handleHotkey(hotkey: Hotkey) {
 function readConfig() {
     try {
         let cfgPath = process.argv[2] || 'config.json'
-        config = JSON.parse(fs.readFileSync(cfgPath, 'utf8'))
+        let config = JSON.parse(fs.readFileSync(cfgPath, 'utf8'))
         for (let preset of config.presets) {
             preset.callback = () => handleHotkey(preset)
             registerHotkey(preset)
