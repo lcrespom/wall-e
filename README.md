@@ -4,12 +4,14 @@ A tool to capture global keyboard shortcuts and perform some predefined tasks.
 It is a small desktop automation tool, hence its name.
 
 To fulfill its task, it uses the following node packages:
-- [node-global-keyl-listener](https://github.com/LaunchMenu/node-global-key-listener):
+- [node-global-key-listener](https://github.com/LaunchMenu/node-global-key-listener):
     to capture global keyboard shortcuts, idependently on which window has the
     focus.
 - [clipboardy](https://github.com/sindresorhus/clipboardy): to read the
   clipboard contents
 - [robotjs](https://github.com/octalmage/robotjs): to simulate keypress events
+- [node-window-manager](https://github.com/sentialx/node-window-manager): to
+  read the title of the active window
 
 
 Supported features:
