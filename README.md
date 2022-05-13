@@ -14,7 +14,7 @@ To fulfill its task, it uses the following node packages:
   read the title of the active window
 
 
-Supported features:
+## Supported features
 
 1. Pasting the clipboard content in places where it's disabled, e.g. in some
 password fields or remote desktops, by capturing Ctrl+Alt+V and typing the
