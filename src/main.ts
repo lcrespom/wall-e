@@ -72,7 +72,7 @@ async function runMacro(macro: Macro) {
 }
 
 function matchWindowTitle(pattern: string): boolean {
-    if (!pattern) return false
+    if (!pattern) return true
     let winTitle = windowManager.getActiveWindow().getTitle()
     return RegExp(pattern).test(winTitle)
 }
