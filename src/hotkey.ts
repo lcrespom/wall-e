@@ -1,4 +1,4 @@
-import { GlobalKeyboardListener } from 'node-global-key-listener'
+import { GlobalKeyboardListener, IGlobalKeyListener } from 'node-global-key-listener'
 import { IGlobalKeyEvent, IGlobalKeyDownMap } from 'node-global-key-listener'
 
 let hotkeys: Hotkey[] = []
@@ -49,6 +49,10 @@ export function traceAllKeyEvents() {
     globalListener.addListener(function (e, down) {
         console.log(`${e.name} ${e.state == 'DOWN' ? 'DOWN' : 'UP  '} [${e.rawKey._nameRaw}]`)
     })
+}
+
+export function addBareListener(listener: IGlobalKeyListener): Promise<void> {
+    return globalListener.addListener(listener)
 }
 
 let globalListener = new GlobalKeyboardListener()

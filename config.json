@@ -21,13 +21,12 @@
         {
             "key": "X",
             "modifiers": ["LEFT CTRL", "LEFT ALT"],
-            "ifTitleMatches": "Notepad",
             "macro": [
-                { "text": "asdf" },
+                { "text": "Hello" },
                 { "wait": 2 },
-                { "click": { "wx": 200, "wy": 200 } },
-                { "wait": 3.5 },
-                { "text": "1234" }
+                { "click": { "x": 200, "y": 200 } },
+                { "wait": 1.5 },
+                { "text": " world!" }
             ]
         }
     ]

@@ -5,7 +5,7 @@ import robot from 'robotjs'
 import { windowManager } from 'node-window-manager'
 
 import { registerHotkey } from './hotkey'
-
+import { registerMacroRecorder } from './macro'
 
 const TYPE_INITIAL_WAIT = 500
 
@@ -98,6 +98,7 @@ function main() {
         callback: handlePaste
     })
     readConfig()
+    registerMacroRecorder()
 }
 
 main()
