@@ -1,6 +1,7 @@
 import robot from 'robotjs'
 
-import { addBareListener, registerHotkey } from './hotkey'
+import { registerHotkey } from './hotkey'
+import mouseHooks from 'mouse-hooks'
 
 let recording = false
 let lastTime = 0
@@ -14,9 +15,8 @@ function handleMacro() {
     }
 }
 
-function handleMacroClick(e) {
+function handleMacroClick(evt) {
     if (!recording) return
-    if (e.name != 'RIGHT CTRL' || e.state != 'UP') return
     let { x, y } = robot.getMousePos()
     let now = new Date().getTime()
     if (lastTime) {
@@ -24,7 +24,8 @@ function handleMacroClick(e) {
         console.log(`    { "wait": ${t} },`)
     }
     lastTime = now
-    console.log(`    { "click": { "x": ${x}, "y": ${y}} },`)
+    let button = evt.button == 'mouse2' ? `, "button": "right"` : ''
+    console.log(`    { "click": { "x": ${x}, "y": ${y}${button} } },`)
 }
 
 export function registerMacroRecorder() {
@@ -33,5 +34,6 @@ export function registerMacroRecorder() {
         modifiers: ['LEFT ALT', 'LEFT CTRL'],
         callback: handleMacro
     })
-    addBareListener(handleMacroClick)
+    //@ts-ignore (mouse-hooks is incorrectly typed)
+    mouseHooks.default.on('mouse-up', handleMacroClick)
 }

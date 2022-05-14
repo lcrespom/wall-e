@@ -24,9 +24,8 @@ content of the clipboard one key at a time.
    file. See the file `config.json` for an example of configuration specifying
    several shortcuts and corresponding actions.
 
-3. Macro recording mode, to capture mouse position every time the right Ctrl key
-   is pressed. The macro steps are displayed on the console and can be copied to
-   the configuration file.
+3. Macro recording mode, capturing mouse clicks. The macro steps are displayed
+   on the console and can be copied to the configuration file.
 
 The default configuration file is `config.json` but a different one can be
 specified in the command line. The tool is run using the `npm start` command.
@@ -36,3 +35,5 @@ specified in the command line. The tool is run using the `npm start` command.
 - Better macro recording: capture keyboard interaction.
 - Ability to support mouse coordinates relative to the active window When
   performing mouse clicks.
+    - Problem: `node-window-manager` gives invalid coordinates for window
+      bounds.

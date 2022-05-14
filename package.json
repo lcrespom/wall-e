@@ -12,6 +12,7 @@
     "dependencies": {
         "clipboardy": "^3.0.0",
         "esno": "^0.14.1",
+        "mouse-hooks": "^0.4.1",
         "node-global-key-listener": "^0.1.1",
         "node-window-manager": "^2.2.4",
         "robotjs": "https://github.com/octalmage/robotjs"
