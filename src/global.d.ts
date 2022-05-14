@@ -20,11 +20,13 @@ type MouseClick = {
     button?: string
     double?: boolean
 }
+
 type MacroStep = {
     text?: string
     click?: MouseClick
     wait?: number
 }
+
 type Macro = [MacroStep]
 
 type Hotkey = {
