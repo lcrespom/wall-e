@@ -32,6 +32,10 @@ specified in the command line. The tool is run using the `npm start` command.
 
 
 ## Next
+- Window positioning
+    - Window position action / macro step
+        - Absolute (pixels) and relative (%) coordinates
+    - Shortcut to capture windows positions
 - Better macro recording: capture keyboard interaction.
 - Ability to support mouse coordinates relative to the active window When
   performing mouse clicks.
