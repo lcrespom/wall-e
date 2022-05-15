@@ -2,7 +2,7 @@ import fs from 'node:fs'
 
 import clipboard from 'clipboardy'
 import robot from 'robotjs'
-import { windowManager } from 'node-window-manager'
+import { windowManager, Window } from 'node-window-manager'
 
 import { registerHotkey } from './hotkey'
 import { registerMacroRecorder } from './macro'
@@ -58,19 +58,35 @@ function mouseClick(click: MouseClick) {
     robot.mouseClick(click.button || 'left', click.double)
 }
 
+function findWindow(windows: Window[], title: string): Window {
+    for (let w of windows) {
+        if (new RegExp(title).test(w.getTitle())) return w
+    }
+    return null
+}
+
+function positionWindow(windows: Window[], wp: WindowPosition) {
+    let w = findWindow(windows, wp.titileMatch)
+    if (!w) return
+    //TODO support percentages
+    w.setBounds({ x: wp.x, y: wp.y, width: wp.w, height: wp.h })
+}
+
 async function runMacro(macro: Macro) {
+    let windows = windowManager.getWindows()
     const sleep = t => new Promise(resolve => setTimeout(resolve, t))
     for (let step of macro) {
         if ('text' in step) typeText(step.text)
         if ('click' in step) mouseClick(step.click)
         if ('wait' in step) await sleep(step.wait * 1000)
+        if ('window' in step) positionWindow(windows, step.window)
     }
 }
 
 function matchWindowTitle(pattern: string): boolean {
     if (!pattern) return true
     let winTitle = windowManager.getActiveWindow().getTitle()
-    return RegExp(pattern).test(winTitle)
+    return new RegExp(pattern).test(winTitle)
 }
 
 function handleHotkey(hotkey: Hotkey) {

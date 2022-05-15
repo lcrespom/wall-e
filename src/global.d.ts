@@ -21,13 +21,23 @@ type MouseClick = {
     double?: boolean
 }
 
+type WindowPosition = {
+    titileMatch: string
+    x?: number
+    y?: number
+    w?: number
+    h?: number
+}
+
 type TextStep = { text: string }
 
 type ClickStep = { click: MouseClick }
 
 type WaitStep = { wait: number }
 
-type MacroStep = TextStep | ClickStep | WaitStep
+type WindowStep = { window: WindowPosition }
+
+type MacroStep = TextStep | ClickStep | WaitStep | WindowStep
 
 type Macro = [MacroStep]
 
