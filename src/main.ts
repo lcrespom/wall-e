@@ -19,7 +19,9 @@ function splitAndFilter(str: string, ...separators: string[]): string[] {
     for (let sep of separators) {
         let result = []
         for (let part of parts) {
-            let splitStr = part.split(new RegExp(`(${sep})`)).filter(s => s.length > 0)
+            let splitStr = part
+                .split(new RegExp(`(${sep})`))
+                .filter(s => s.length > 0)
             result = result.concat(splitStr)
         }
         parts = result
@@ -59,9 +61,9 @@ function mouseClick(click: MouseClick) {
 async function runMacro(macro: Macro) {
     const sleep = t => new Promise(resolve => setTimeout(resolve, t))
     for (let step of macro) {
-        if (step.text) typeText(step.text)
-        if (step.click) mouseClick(step.click)
-        if (step.wait) await sleep(step.wait * 1000)
+        if ('text' in step) typeText(step.text)
+        if ('click' in step) mouseClick(step.click)
+        if ('wait' in step) await sleep(step.wait * 1000)
     }
 }
 

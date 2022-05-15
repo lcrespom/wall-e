@@ -21,11 +21,13 @@ type MouseClick = {
     double?: boolean
 }
 
-type MacroStep = {
-    text?: string
-    click?: MouseClick
-    wait?: number
-}
+type TextStep = { text: string }
+
+type ClickStep = { click: MouseClick }
+
+type WaitStep = { wait: number }
+
+type MacroStep = TextStep | ClickStep | WaitStep
 
 type Macro = [MacroStep]
 

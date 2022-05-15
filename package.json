@@ -19,5 +19,13 @@
     },
     "devDependencies": {
         "@types/node": "^17.0.32"
+    },
+    "prettier": {
+        "useTabs": false,
+        "tabWidth": 4,
+        "semi": false,
+        "singleQuote": true,
+        "arrowParens": "avoid",
+        "trailingComma": "none"
     }
 }
