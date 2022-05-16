@@ -66,7 +66,7 @@ function findWindow(windows: Window[], title: string): Window {
 }
 
 function positionWindow(windows: Window[], wp: WindowPosition) {
-    let w = findWindow(windows, wp.titileMatch)
+    let w = findWindow(windows, wp.titleMatch)
     if (!w) return
     //TODO support percentages
     w.setBounds({ x: wp.x, y: wp.y, width: wp.w, height: wp.h })
