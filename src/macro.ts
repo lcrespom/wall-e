@@ -21,10 +21,13 @@ function handleListWindows() {
     console.log('"macro": [')
     let windows = windowManager.getWindows()
     for (let w of windows) {
+        let wttl = w.getTitle().replaceAll('\\', '\\\\')
+        let pth = (w.path || '').replaceAll('\\', '\\\\')
         let b = w.getBounds()
-        let title = `"titleMatch": "${w.getTitle()}"`
+        if (!wttl || b.width === 0 || b.height === 0) continue
+        let title = `"titleMatch": "${wttl}", "pathMatch": "${pth}"`
         let bounds = `"x": ${b.x}, "y": ${b.y}, "w": ${b.width}, "h": ${b.height}`
-        console.log(`    { "window": { ${title}, ${bounds} } }`)
+        console.log(`    { "window": { ${title}, ${bounds} } },`)
     }
     console.log(']')
 }

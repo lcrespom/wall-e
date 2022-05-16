@@ -22,7 +22,8 @@ type MouseClick = {
 }
 
 type WindowPosition = {
-    titleMatch: string
+    titleMatch?: string
+    pathMatch?: string
     x?: number
     y?: number
     w?: number

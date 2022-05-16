@@ -58,15 +58,21 @@ function mouseClick(click: MouseClick) {
     robot.mouseClick(click.button || 'left', click.double)
 }
 
-function findWindow(windows: Window[], title: string): Window {
+function strmatch(str: string, regex: string): boolean {
+    if (!str || !regex) return false
+    return new RegExp(regex).test(str)
+}
+
+function findWindow(windows: Window[], wp: WindowPosition): Window {
     for (let w of windows) {
-        if (new RegExp(title).test(w.getTitle())) return w
+        if (strmatch(w.getTitle(), wp.titleMatch)) return w
+        if (strmatch(w.path, wp.pathMatch)) return w
     }
     return null
 }
 
 function positionWindow(windows: Window[], wp: WindowPosition) {
-    let w = findWindow(windows, wp.titleMatch)
+    let w = findWindow(windows, wp)
     if (!w) return
     //TODO support percentages
     w.setBounds({ x: wp.x, y: wp.y, width: wp.w, height: wp.h })
@@ -86,7 +92,7 @@ async function runMacro(macro: Macro) {
 function matchWindowTitle(pattern: string): boolean {
     if (!pattern) return true
     let winTitle = windowManager.getActiveWindow().getTitle()
-    return new RegExp(pattern).test(winTitle)
+    return strmatch(winTitle, pattern)
 }
 
 function handleHotkey(hotkey: Hotkey) {
