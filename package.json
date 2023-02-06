@@ -4,7 +4,7 @@
     "description": "Desktop automation",
     "type": "module",
     "scripts": {
-        "start": "esmo src/main.ts",
+        "start": "esno src/main.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Luis Crespo",

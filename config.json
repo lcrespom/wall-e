@@ -13,7 +13,7 @@
             "message": "consectetur\nadipliscit"
         },
         {
-            "key": "W",
+            "key": "N",
             "modifiers": ["LEFT CTRL", "LEFT ALT"],
             "ifTitleMatches": "- Notepad",
             "message": "Hello Notepad"
